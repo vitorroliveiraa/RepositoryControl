@@ -64,15 +64,15 @@ app.delete("/repositories/:id", (request, response) => {
 app.post("/repositories/:id/like", (request, response) => {
   const { id } = request.params;
 
-  const repositoryIndex = repositories.findIndex((repository) => repository.id === id);
+  const repository = repositories.find((repository) => repository.id === id);
 
-  if (repositoryIndex < 0) {
+  if (!repository) {
     return response.status(404).json({ error: "Repository not found" });
   }
 
-  repositories[repositoryIndex].likes = ++repositories[repositoryIndex].likes;
+  repository.likes = repository.likes + 1;
 
-  return response.json(repositories[repositoryIndex]);
+  return response.json(repository);
 });
 
 module.exports = app;
